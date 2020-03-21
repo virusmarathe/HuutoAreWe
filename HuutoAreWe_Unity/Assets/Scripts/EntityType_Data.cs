@@ -10,7 +10,7 @@ public class EntityType_Data : ScriptableObject
     {
         public string Name;
         public int ID;
-        public Texture2D DefaultSprite;
+        public Sprite DefaultSprite;
     }
 
     public List<EntityTypeStructure> EntityTypes = new List<EntityTypeStructure>();
