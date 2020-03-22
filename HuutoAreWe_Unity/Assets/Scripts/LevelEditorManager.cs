@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,9 @@ public class LevelEditorManager : MonoBehaviour
 {
     public TileGrid Grid;
     public Dropdown EntityDropdown;
+    public Toggle UseTextToggle;
+    public Image SelectionImage;
+    public InputField FileNameInput;
     public EntityType_Data EntityData;
 
     Camera cam;
@@ -23,6 +27,44 @@ public class LevelEditorManager : MonoBehaviour
         }
 
         EntityDropdown.AddOptions(optionsList);
+        EntityDropdown.onValueChanged.AddListener(OnDropDownChanged);
+        OnDropDownChanged(0);
+    }
+
+    private void OnDestroy()
+    {
+        EntityDropdown.onValueChanged.RemoveListener(OnDropDownChanged);
+    }
+
+    void OnDropDownChanged(int value)
+    {
+        EntityType_Data.EntityTypeStructure dataChosen = null;
+
+        foreach(EntityType_Data.EntityTypeStructure data in EntityData.EntityTypes)
+        {
+            if (data.ID == value)
+            {
+                dataChosen = data;
+            }
+        }
+
+        if (dataChosen != null)
+        {
+            switch (dataChosen.ObjectType)
+            {
+                case EntityType_Data.EntityObjectType.INCLUDE_TEXT:
+                    UseTextToggle.enabled = true;
+                    break;
+                case EntityType_Data.EntityObjectType.NO_TEXT:
+                    UseTextToggle.enabled = false;
+                    UseTextToggle.isOn = false;
+                    break;
+                case EntityType_Data.EntityObjectType.TEXT_ONLY:
+                    UseTextToggle.enabled = false;
+                    UseTextToggle.isOn = true;
+                    break;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -46,6 +88,36 @@ public class LevelEditorManager : MonoBehaviour
 
     void HandleHit(EditorTile tile)
     {
-        tile.SetSprite(EntityDropdown.options[EntityDropdown.value].image);
+        if (UseTextToggle.isOn)
+        {
+            tile.SetText(EntityDropdown.options[EntityDropdown.value].text, EntityDropdown.value);
+        }
+        else
+        {
+            tile.SetSprite(EntityDropdown.options[EntityDropdown.value].image, EntityDropdown.value);
+        }
+    }
+
+    public void ExportLevel()
+    {
+        string filename = FileNameInput.text;
+        string path = Application.persistentDataPath + "/Levels/";
+        Directory.CreateDirectory(path);
+
+        path += filename + ".level";
+
+        Debug.Log(path);
+
+        List<string> levelData = new List<string>();
+
+        foreach(EditorTile tile in Grid.TileGridList)
+        {
+            levelData.Add(tile.GetExportString());
+        }
+
+        File.WriteAllLines(path, levelData);
+
+        string readText = File.ReadAllText(path);
+        Debug.Log(readText);
     }
 }

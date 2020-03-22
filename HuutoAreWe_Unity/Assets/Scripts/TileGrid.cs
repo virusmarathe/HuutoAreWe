@@ -9,6 +9,8 @@ public class TileGrid : MonoBehaviour
     public int TileWidth = 20;
     public int TileHeight = 10;
 
+    public List<EditorTile> TileGridList = new List<EditorTile>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,10 @@ public class TileGrid : MonoBehaviour
                 go.name = $"{i},{j}";
                 go.transform.localPosition = new Vector2(i * TileScale, j * TileScale);
                 go.transform.localScale = new Vector2(TileScale, TileScale);
+
+                EditorTile editorTile = go.GetComponent<EditorTile>();
+                editorTile.SetCoords(i, j);
+                TileGridList.Add(editorTile);
             }
         }
     }
