@@ -53,3 +53,11 @@ MonoBehaviour:
     ID: 9
     DefaultSprite: {fileID: 21300000, guid: 644a3645a85cbaa43b126be9bb30a950, type: 3}
     ObjectType: 2
+  - Name: Push
+    ID: 10
+    DefaultSprite: {fileID: 21300000, guid: 644a3645a85cbaa43b126be9bb30a950, type: 3}
+    ObjectType: 2
+  - Name: You
+    ID: 10
+    DefaultSprite: {fileID: 21300000, guid: 644a3645a85cbaa43b126be9bb30a950, type: 3}
+    ObjectType: 2

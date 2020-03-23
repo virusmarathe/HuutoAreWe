@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LevelEditorManager : MonoBehaviour
 {
-    public TileGrid Grid;
+    public LevelEditorTileGrid Grid;
     public Dropdown EntityDropdown;
     public Toggle UseTextToggle;
     public Image SelectionImage;
@@ -77,7 +77,7 @@ public class LevelEditorManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                EditorTile tile = hit.collider.GetComponent<EditorTile>();
+                LevelEditorTile tile = hit.collider.GetComponent<LevelEditorTile>();
                 if (tile)
                 {
                     HandleHit(tile);
@@ -86,7 +86,7 @@ public class LevelEditorManager : MonoBehaviour
         }
     }
 
-    void HandleHit(EditorTile tile)
+    void HandleHit(LevelEditorTile tile)
     {
         if (UseTextToggle.isOn)
         {
@@ -106,18 +106,14 @@ public class LevelEditorManager : MonoBehaviour
 
         path += filename + ".level";
 
-        Debug.Log(path);
-
         List<string> levelData = new List<string>();
 
-        foreach(EditorTile tile in Grid.TileGridList)
+        foreach(LevelEditorTile tile in Grid.TileGridList)
         {
             levelData.Add(tile.GetExportString());
         }
 
         File.WriteAllLines(path, levelData);
-
-        string readText = File.ReadAllText(path);
-        Debug.Log(readText);
+        Debug.Log("exported " + path);
     }
 }

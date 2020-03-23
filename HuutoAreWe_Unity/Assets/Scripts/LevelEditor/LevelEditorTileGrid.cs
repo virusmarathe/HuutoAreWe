@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileGrid : MonoBehaviour
+public class LevelEditorTileGrid : MonoBehaviour
 {
     public GameObject DefaultTile;
     public float TileScale = 1;
     public int TileWidth = 20;
     public int TileHeight = 10;
 
-    public List<EditorTile> TileGridList = new List<EditorTile>();
+    public List<LevelEditorTile> TileGridList = new List<LevelEditorTile>();
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,7 @@ public class TileGrid : MonoBehaviour
                 go.transform.localPosition = new Vector2(i * TileScale, j * TileScale);
                 go.transform.localScale = new Vector2(TileScale, TileScale);
 
-                EditorTile editorTile = go.GetComponent<EditorTile>();
+                LevelEditorTile editorTile = go.GetComponent<LevelEditorTile>();
                 editorTile.SetCoords(i, j);
                 TileGridList.Add(editorTile);
             }

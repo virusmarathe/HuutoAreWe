@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EditorTile : MonoBehaviour
+public class LevelEditorTile : MonoBehaviour
 {
     public SpriteRenderer CurrentImage;
     public TextMesh Text;
